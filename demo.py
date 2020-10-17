@@ -23,7 +23,7 @@ new=GerberCairoContext()
 new_settings=RenderSettings(color=theme.COLORS['red'],alpha=0.8)
 white_text_settings=RenderSettings(color=theme.COLORS['white'],alpha=0.8)
 new.render_layer(copper,settings=new_settings)
-new.render_layer(mask)
+new.render_layer(mask,settings=new_settings)
 new.render_layer(silk,settings=white_text_settings)
 new.render_layer(drill)
 
@@ -34,7 +34,7 @@ copper_bottom=load_layer(os.path.join(BASE_DIR,'bottom_copper.GBL'))
 mask_bottom=load_layer(os.path.join(BASE_DIR,'bottom_mask.GBS'))
 
 new.render_layer(copper_bottom,settings=new_settings)
-new.render_layer(mask_bottom)
+new.render_layer(mask_bottom,settings=new_settings)
 new.render_layer(drill)
 
 new.dump(os.path.join(BASE_DIR,'back.png')) 

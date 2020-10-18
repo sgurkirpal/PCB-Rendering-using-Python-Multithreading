@@ -14,6 +14,7 @@ import os
 import threading
 import time
 
+#function that is rendering the layers
 def final(copper,mask,drill,colour,name,silk=None):
     new_settings=RenderSettings(color=colour,alpha=0.8)
     new=GerberCairoContext()
@@ -25,8 +26,10 @@ def final(copper,mask,drill,colour,name,silk=None):
     new.render_layer(drill)
     new.dump(os.path.join(BASE_DIR,name))
 
+#working directory
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__),'gerbers'))
 
+#loading required layers
 copper=load_layer(os.path.join(BASE_DIR,'copper.GTL'))
 mask=load_layer(os.path.join(BASE_DIR,'soldermask.GTS'))
 silk=load_layer(os.path.join(BASE_DIR,'silkscreen.GTO'))
@@ -42,6 +45,8 @@ name=['1.png','2.png','3.png','4.png','5.png','5.png','back1.png','back2.png','b
 
 back=[]
 t=[]
+
+#threading
 for i in range(10):
     if(i<5):
         t.append(threading.Thread(target=final,args=(copper,mask,drill,col[i],name[i],silk)))
@@ -52,3 +57,7 @@ for i in t:
     i.start()    
 for i in back:
     i.start()
+for i in t:
+    i.join()
+for i in back:
+    i.join()
